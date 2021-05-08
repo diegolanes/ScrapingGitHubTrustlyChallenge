@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
@@ -12,37 +12,36 @@ namespace ScrapingGitHubAPI.Domain
 {
     public class Scrap
     {
-        public static void start(string url, ref List<ItemDescription> itemsDescription)
+        public static void getUrlContent(string baseUrl, string path ,ConcurrentBag<ItemDescription> itemsDescription)
         {
             var webClient = new WebClient();
-            var pageContent = webClient.DownloadString(HttpUtility.UrlDecode(url));
+            var pageContent = webClient.DownloadString(HttpUtility.UrlDecode(baseUrl + path));
             var htmlDocument = new HtmlAgilityPack.HtmlDocument();
+
             htmlDocument.LoadHtml(pageContent);
+            var childNodes = htmlDocument.DocumentNode.SelectNodes("//div[contains(@class,'js-navigation-item')]");
 
-            HtmlNodeCollection childNodes = htmlDocument.DocumentNode.SelectNodes("//div[contains(@class,'js-navigation-item')]");
-
-            foreach (HtmlNode node in childNodes)
-            //Parallel.ForEach(childNodes, node =>
+            Parallel.ForEach(childNodes, node =>
             {
                 if (node.InnerText.Replace("\n", "").Trim() != ". .")
                 {
                     if (node.SelectSingleNode("div[1]/svg").Attributes["aria-label"].Value == "Directory")
                     {
-                        start("https://github.com" + node.SelectSingleNode("div[2]/span/a").Attributes["href"].Value, ref itemsDescription);
+                        getUrlContent(baseUrl, node.SelectSingleNode("div[2]/span/a").Attributes["href"].Value,itemsDescription);
                     }
                     else
                     {
-                        itemsDescription.Add(getFileData(node));
+                        itemsDescription.Add(getFileData(baseUrl, node));
                     }
                 }
-            }/*);*/
+            });
         }
         public static string getExtension(string url)
         {
             string textAfterLastSlash = url.Substring(url.LastIndexOf("/") + 1, url.Length - url.LastIndexOf("/") - 1);
             if (textAfterLastSlash.Contains("."))
             {
-                return textAfterLastSlash.Split('.')[1];
+                return textAfterLastSlash.Split('.')[textAfterLastSlash.Split('.').Count() - 1];
             }
             else
             {
@@ -92,18 +91,17 @@ namespace ScrapingGitHubAPI.Domain
                 case "B":
                     return Convert.ToDouble(sizeValue);
                 case "KB":
-                    return Convert.ToDouble(sizeValue) * 1000;
+                    return Convert.ToDouble(sizeValue) * ScrapUtils.kbMultiplier;
                 case "MB":
-                    return Convert.ToDouble(sizeValue) * 1000000;
+                    return Convert.ToDouble(sizeValue) * ScrapUtils.mbMultiplier;
                 case "GB":
-                    return Convert.ToDouble(sizeValue) * 1000000000;
+                    return Convert.ToDouble(sizeValue) * ScrapUtils.gbMultiplier;
                 default:
                     return Convert.ToDouble(sizeValue);
             }
         }
-        public static ItemDescription getFileData(HtmlNode node)
+        public static ItemDescription getFileData(string baseUrl, HtmlNode node)
         {
-            string baseUrl = "https://github.com";
             var name = node.SelectSingleNode("div[2]/span/a").InnerText;
             var type = node.SelectSingleNode("div[1]/svg").Attributes["aria-label"].Value;
             var url = baseUrl + node.SelectSingleNode("div[2]/span/a").Attributes["href"].Value;
@@ -135,7 +133,6 @@ namespace ScrapingGitHubAPI.Domain
             }).OrderBy(i => i.Extension).ToList();
         }
     }
-
     public class ItemDescription
     {
         public string Name { get; set; }

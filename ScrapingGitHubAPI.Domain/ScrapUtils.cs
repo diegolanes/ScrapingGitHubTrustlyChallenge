@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace ScrapingGitHubAPI
+namespace ScrapingGitHubAPI.Domain
 {
-    public class Utils
+    public class ScrapUtils
     {
         public const int kbMultiplier = 1000;
         public const int mbMultiplier = 1000000;
@@ -12,5 +15,6 @@ namespace ScrapingGitHubAPI
         {
             return configuration.GetSection("BaseUrlGitHub").Value;
         }
+
     }
 }

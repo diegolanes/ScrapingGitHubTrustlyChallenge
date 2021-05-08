@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScrapingGitHubAPI", "ScrapingGitHubAPI\ScrapingGitHubAPI.csproj", "{68A15FA3-92DF-47FA-B065-10108386F6D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrapingGitHubAPI.Domain", "ScrapingGitHubAPI.Domain\ScrapingGitHubAPI.Domain.csproj", "{42872503-CBDD-4ADC-A36B-49D6E432151A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScrapingGitHubAPI.Domain", "ScrapingGitHubAPI.Domain\ScrapingGitHubAPI.Domain.csproj", "{42872503-CBDD-4ADC-A36B-49D6E432151A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrapingGitHubAPI.Tests", "ScrapingGitHubAPI.Tests\ScrapingGitHubAPI.Tests.csproj", "{95E6489F-88FD-499D-ABF9-7A46A3FC28E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{42872503-CBDD-4ADC-A36B-49D6E432151A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42872503-CBDD-4ADC-A36B-49D6E432151A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42872503-CBDD-4ADC-A36B-49D6E432151A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95E6489F-88FD-499D-ABF9-7A46A3FC28E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95E6489F-88FD-499D-ABF9-7A46A3FC28E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95E6489F-88FD-499D-ABF9-7A46A3FC28E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95E6489F-88FD-499D-ABF9-7A46A3FC28E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
