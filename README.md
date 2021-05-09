@@ -22,7 +22,7 @@ the number of files with the same extension, the number of bytes of these files,
   #### http://scraper-git.herokuapp.com/api/scrap/
   ##### * should be http://...
   <br>
-  #### to start the scraping, append the user and repo at the end of the url:
+  ##### to start the scraping, append the user and repo at the end of the url:
 
  #### http://scraper-git.herokuapp.com/api/scrap/{user}/{repo}
 
