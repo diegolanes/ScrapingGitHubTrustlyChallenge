@@ -28,7 +28,7 @@ the number of files with the same extension, the number of bytes of these files,
   ### If you're running locally:
   #### https://localhost:44339/api/scrap/amfe/slider-js
   
-## 🛠️ Desafio
+## 🛠️ Requirements
 
 Requirements: 
 - [ ] Your API must be written using Java 8 or newer, ECMAscript 2015 or newer, or C# 8.0
